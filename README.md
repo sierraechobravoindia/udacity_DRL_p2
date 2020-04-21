@@ -1,9 +1,3 @@
-{
- "cells": [
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
     "# README\n",
     "This repo contains my solution for the second project of the udacity Deep Reinforcement Learning Nanodegree.\n",
     "The code and implementation is based on the DDPG example code given in the udacity DRL Nano Degree (for the Open AI pendulum task) and modified for the Unity ML Continuous Control Task.\n",
@@ -70,33 +64,3 @@
     "# Reference and Credits\n",
     "\n",
     "The implementation is based on code from the the DDPG example given in the udacity DRL repo and only minimally adopted to the new environment. The complete list of references can be found in the project report.\n"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": []
-  }
- ],
- "metadata": {
-  "kernelspec": {
-   "display_name": "Python 3",
-   "language": "python",
-   "name": "python3"
-  },
-  "language_info": {
-   "codemirror_mode": {
-    "name": "ipython",
-    "version": 3
-   },
-   "file_extension": ".py",
-   "mimetype": "text/x-python",
-   "name": "python",
-   "nbconvert_exporter": "python",
-   "pygments_lexer": "ipython3",
-   "version": "3.6.3"
-  }
- },
- "nbformat": 4,
- "nbformat_minor": 2
-}
