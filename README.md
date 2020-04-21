@@ -1,1 +1,102 @@
-# udacity_DRL_p2
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# README\n",
+    "This repo contains my solution for the second project of the udacity Deep Reinforcement Learning Nanodegree.\n",
+    "The code and implementation is based on the DDPG example code given in the udacity DRL Nano Degree (for the Open AI pendulum task) and modified for the Unity ML Continuous Control Task.\n",
+    "\n",
+    "\n",
+    "# Short Description of the environment\n",
+    "\n",
+    "The environment is the Unity ML Reacher environment [(link)](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#reacher). It describes a double jointed arm. The goal of the agent is to move the arm to and stay in a given target location. The agent receives a reward of +0.1 for every timestep it is in the target location. \n",
+    "\n",
+    "There are two variants provided for this task, one contains a single arm, the other 20 identical copies for distributed learning. The provided solution in this repo solves the version with a single arm. \n",
+    "\n",
+    "## Observation Space\n",
+    "\n",
+    "The observation space consists of 33 continuous variables corresponding to position, rotation, velocity, and angular velocities of the two arms.\n",
+    "\n",
+    "## Action Space\n",
+    "\n",
+    "The action space is continuous and 4-dimensional, corresponding to the torque applicable to the two joints (for the two degrees of freedom on each joint).\n",
+    "\n",
+    "## Solution criterion\n",
+    "\n",
+    "The environment is considered to be solved, if the agent scores on average +30 on 100 consecutive episodes. \n",
+    "\n",
+    "\n",
+    "# Files in the Repository\n",
+    "\n",
+    "The files of interest in the repo are: \n",
+    "\n",
+    "- `Continuous_Control.ipynb`: Notebook used to control and train the agent. The entry point to the code. \n",
+    "- `DDPG_agent.py`: Create an Agent class that interacts with and learns from the environment \n",
+    "- `models.py`: Contains the two networks for \"actor\" and \"critic\". values \n",
+    "- `checkpoint_actor.pth`: Saved weights for actor network\n",
+    "- `checkpoint_critic.pth`: Saved weights for the critic network\n",
+    "- `report.pdf`: Project report including a short introduction of the DDGP algorithm used, the hyperparameters and a short discussion of the results. \n",
+    "\n",
+    "\n",
+    "# Getting Started, Installation and Dependencies\n",
+    "\n",
+    "To run this code, you have to install the dependencies and the environment.\n",
+    "\n",
+    "## Dependencies  \n",
+    "\n",
+    "The code requires Python 3. The  necessary dependencies can be found in `./python/requirements.txt` \n",
+    "Batch installation is done like so: \n",
+    "```\n",
+    "pip install ./python/requirements.txt\n",
+    "``` \n",
+    "## Environment\n",
+    "\n",
+    "The necessasry Unity environment can be downloaded from the following locations:\n",
+    "\n",
+    "- Linux: [(link)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Linux.zip)\n",
+    "- Mac OSX: [(link)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher.app.zip)\n",
+    "- Windows (64-bit): [(link)](https://s3-us-west-1.amazonaws.com/udacity-drlnd/P2/Reacher/one_agent/Reacher_Windows_x86_64.zip)\n",
+    "\n",
+    "\n",
+    "\n",
+    "## Execution\n",
+    "\n",
+    "Once you have cloned this repository and istalled the dependencies and the environment, the main entry point for execution is the Jupyter-notebook `Continuous_Control.ipynb`.\n",
+    "\n",
+    "\n",
+    "\n",
+    "# Reference and Credits\n",
+    "\n",
+    "The implementation is based on code from the the DDPG example given in the udacity DRL repo and only minimally adopted to the new environment. The complete list of references can be found in the project report.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.6.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

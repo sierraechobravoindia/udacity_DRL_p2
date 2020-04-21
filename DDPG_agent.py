@@ -1,6 +1,7 @@
 from models import Actor, Critic
 
 import random
+import copy
 import numpy as np
 
 import torch
@@ -14,13 +15,12 @@ TAU = 1e-3
 BUFFER_SIZE = int(1e5)
 BATCH_SIZE = 128
 
-LR_ACTOR = 1e-4
-LR_CRITIC = 1e-3
+LR_ACTOR = 2e-4
+LR_CRITIC = 2e-4
 
 WEIGHT_DECAY = 0
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-print(torch.cuda.is_available())
 
 
 class ReplayBuffer():
@@ -59,16 +59,27 @@ class Agent():
         self.action_size = action_size
         self.seed = seed
                                      
-        self.actor = Actor(self.seed, self.state_size, self.action_size).to(device)
-        self.actor_target = Actor(self.seed, self.state_size, self.action_size).to(device)
+        self.actor = Actor(self.state_size, self.action_size, self.seed).to(device)
+        self.actor_target = Actor(self.state_size, self.action_size, self.seed).to(device)
         self.actor_optimizer = optim.Adam(self.actor.parameters(), lr=LR_ACTOR)
                                      
-        self.critic = Critic(self.seed, self.state_size, self.action_size).to(device)
-        self.critic_target = Critic(self.seed, self.state_size, self.action_size).to(device)
+        self.critic = Critic(self.state_size, self.action_size, self.seed).to(device)
+        self.critic_target = Critic(self.state_size, self.action_size, self.seed).to(device)
         self.critic_optimizer = optim.Adam(self.critic.parameters(), lr = LR_CRITIC)
-                                     
+        
+        self.copy_init_weights(self.actor, self. actor_target)
+        self.copy_init_weights(self.critic, self.critic_target)
+        
+        self.noise = OUNoise(action_size, seed)
+            
         self.memory = ReplayBuffer(BUFFER_SIZE, BATCH_SIZE, seed)                    
-                                     
+    
+    def copy_init_weights(self, source, target):
+        for target_param, source_param in zip(target.parameters(), source.parameters()):
+            target_param.data.copy_(source_param.data)
+    
+    
+    
     def act(self, state, exploration= True):
         
         state = torch.from_numpy(state).float().to(device)                     
@@ -79,9 +90,9 @@ class Agent():
         self.actor.train()  
                          
         if exploration:
-            action += Noise(self.action_size, self.seed)
-            action = np.clip(action, -1, 1)
-        return action
+            action += self.noise.sample()  
+            
+        return np.clip(action, -1, 1)
                                      
                                      
     def step(self, state, action, reward, next_state, done):
@@ -108,6 +119,7 @@ class Agent():
         critic_loss = F.mse_loss(Q_expected, Q_targets)                             
         self.critic_optimizer.zero_grad()
         critic_loss.backward()
+        torch.nn.utils.clip_grad_norm_(self.critic.parameters(), 1)
         self.critic_optimizer.step()                 
                                      
         # soft update of target network
@@ -125,4 +137,30 @@ def Noise(action_size, seed):
    mu, sigma = 0, 0.2 
    noise = np.random.normal(mu, sigma, action_size) 
    return np.array(noise)
+
+
+class OUNoise():
+    def __init__(self, size, seed, mu=0., theta=0.15, sigma=0.1):
+        self.mu = mu * np.ones(size)
+        self.sigma = sigma
+        self.theta = theta
+        self.seed = random.seed(seed)
+        self.reset()
+        
+    def reset(self):
+        self.state = copy.copy(self.mu)
+        
+    def sample(self):
+        x = self.state
+        dx = self.theta * (self.mu - x) + self.sigma * np.array([random.random() for i in range(len(x))])
+        self.state = x + dx
+        return self.state
+        
+      
+
+
+
+
+
+
 
